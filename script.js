@@ -17,6 +17,31 @@ const forgotPassword = document.querySelector("#forgotPassword");
 const clock = document.querySelector("#clock");
 let captchaCode = "";
 
+function storageGet(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function storageSet(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function storageRemove(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Local file URLs may block storage access; login still works without persistence.
+  }
+}
+
 const BLUE = [48, 111, 255];
 const TAU = Math.PI * 2;
 const SCENE_SCALE = 1.2;
@@ -462,22 +487,22 @@ loginForm.addEventListener("submit", (event) => {
     return;
   }
   if (rememberPassword.checked) {
-    localStorage.setItem("rememberedLogin", JSON.stringify({ account: accountInput.value, password: passwordInput.value }));
+    storageSet("rememberedLogin", JSON.stringify({ account: accountInput.value, password: passwordInput.value }));
   } else {
-    localStorage.removeItem("rememberedLogin");
+    storageRemove("rememberedLogin");
   }
   loginFeedback.textContent = "正在验证账号登录信息…";
 });
 
 try {
-  const rememberedLogin = JSON.parse(localStorage.getItem("rememberedLogin"));
+  const rememberedLogin = JSON.parse(storageGet("rememberedLogin"));
   if (rememberedLogin?.account && rememberedLogin?.password) {
     accountInput.value = rememberedLogin.account;
     passwordInput.value = rememberedLogin.password;
     rememberPassword.checked = true;
   }
 } catch {
-  localStorage.removeItem("rememberedLogin");
+  storageRemove("rememberedLogin");
 }
 
 document.addEventListener("pointermove", (event) => {
