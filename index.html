@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#03050a" />
+    <title>低空政务一网统飞平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="portal" id="portal">
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <div class="grain" aria-hidden="true"></div>
+      <div class="scanlines" aria-hidden="true"></div>
+
+      <div class="topbar">
+        <a class="brand-mini" href="#" aria-label="平台首页">
+          <span class="brand-mini__mark">
+            <i></i><i></i><i></i>
+          </span>
+          <span>LOW ALTITUDE · DIGITAL TWIN</span>
+        </a>
+        <div class="system-status">
+          <span class="system-status__dot"></span>
+          SYSTEM ONLINE
+          <span class="system-status__time" id="clock">00:00:00</span>
+        </div>
+      </div>
+
+      <section class="hero" aria-labelledby="platform-title">
+        <div class="title-row">
+          <div class="logo" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="img">
+              <defs>
+                <linearGradient id="logo-gradient" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#306fff" />
+                  <stop offset="1" stop-color="#a9c3ff" />
+                </linearGradient>
+              </defs>
+              <path d="M14 52 32 14h9L25 52Z" fill="url(#logo-gradient)" />
+              <path d="m29 52 16-32h7L41 43h17l4 9Z" fill="#f1f5ff" />
+              <path d="M33 37h20l-4 7H30Z" fill="#306fff" opacity=".75" />
+            </svg>
+          </div>
+          <div>
+            <h1 id="platform-title">低空政务一网统飞平台</h1>
+            <p><strong>一网统飞，一飞多用</strong><span>LOW ALTITUDE GOVERNMENT FLIGHT PLATFORM</span></p>
+          </div>
+        </div>
+
+        <div class="hero__action">
+          <span class="service-pill">
+            <i></i>
+            <strong>7×24</strong>
+            小时政务飞行服务
+          </span>
+          <button class="login-trigger" id="loginTrigger" type="button">
+            <span>登录平台</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h13M14 7l5 5-5 5" />
+            </svg>
+          </button>
+        </div>
+
+      </section>
+
+      <div class="login-backdrop" id="loginBackdrop" aria-hidden="true">
+        <section class="login-modal" id="loginPanel" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+          <button class="login-panel__close" id="closeLogin" type="button" aria-label="关闭登录弹窗">
+            <span></span><span></span>
+          </button>
+
+          <header class="login-modal__header">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5h14v11H9l-4 3V5Z" />
+              <path d="M9 10h.01M12 10h.01M15 10h.01" />
+            </svg>
+            <h2 id="loginTitle">短信登录</h2>
+          </header>
+
+          <form id="loginForm" novalidate>
+            <div class="login-mode login-mode--sms" data-mode="sms">
+              <label class="form-label" for="phone">手机号码</label>
+              <input class="login-input" id="phone" name="phone" type="tel" inputmode="numeric" maxlength="11" autocomplete="tel" placeholder="请输入手机号码" />
+
+              <label class="form-label">短信验证码</label>
+              <div class="code-row">
+                <div class="code-inputs" id="codeInputs">
+                  <input aria-label="验证码第1位" inputmode="numeric" maxlength="1" />
+                  <input aria-label="验证码第2位" inputmode="numeric" maxlength="1" />
+                  <input aria-label="验证码第3位" inputmode="numeric" maxlength="1" />
+                  <input aria-label="验证码第4位" inputmode="numeric" maxlength="1" />
+                </div>
+                <i></i>
+                <button class="code-button" id="sendCode" type="button">获取短信验证码</button>
+              </div>
+            </div>
+
+            <div class="login-mode login-mode--account" data-mode="account" hidden>
+              <label class="form-label" for="account">账号</label>
+              <input class="login-input" id="account" name="account" type="text" autocomplete="username" placeholder="请输入账号" />
+              <label class="form-label" for="password">密码</label>
+              <input class="login-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="请输入密码" />
+            </div>
+
+            <button class="modal-submit" type="submit">立即登录</button>
+            <div class="login-feedback" id="loginFeedback" role="status"></div>
+
+            <div class="login-divider"><span>OR</span></div>
+            <button class="switch-login" id="switchLogin" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M5 21c.8-5 3.1-7.4 7-7.4s6.2 2.4 7 7.4" />
+              </svg>
+              <span>使用账号登录</span>
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true">
+        <span>EXPLORE TERRAIN</span>
+        <i></i>
+      </div>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
